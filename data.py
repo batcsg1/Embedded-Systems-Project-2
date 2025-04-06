@@ -38,13 +38,16 @@ for row in range(rows):
         s_bytes = serialCom.readline()
         # Decode the binary
         decoded_bytes = s_bytes.decode("utf-8").strip('\r\n')
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Timestamp
+        timestamp = datetime.now().isoformat()
+        # Time
+        time_12_hour = datetime.now().strftime("%I:%M %p")
         
         #Parse lines
         if row == 0: #Target headers
             values = decoded_bytes.split(",")
             values.insert(0, "Timestamp")
+            values.insert(1, "Time")
         else: # Target data rows
             values = [float(x) for x in decoded_bytes.split()]
 
@@ -55,6 +58,7 @@ for row in range(rows):
                 continue
 
             values.insert(0, timestamp)
+            values.insert(1, time_12_hour)
 
         print(values) #Print the data
 
