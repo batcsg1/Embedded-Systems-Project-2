@@ -6,13 +6,20 @@ import time
 import csv
 from datetime import datetime
 
+import os
+
+# ChatGPT code for checking if:
+# the file exists and is empty
+file_exists = os.path.exists("data.csv")
+file_empty = os.path.getsize("data.csv") == 0 if file_exists else True
+
 # Loop through existing COM ports and print them to terminal
 ports = list_ports.comports()
 for port in ports: print(port)
 
 # Create data file
-f = open("data.csv", "w",newline='')
-f.truncate() # Used to clear any existing data
+f = open("data.csv", "a",newline='')
+
 
 # Target Arduino serial port
 serialCom = serial.Serial('COM3', 9600)
@@ -30,7 +37,7 @@ def isfloat(num):
     except ValueError:
         return False
 
-rows = 20 # Number of data rows to record
+rows = 10 # Number of data rows to record
 
 for row in range(rows):
     try:
@@ -44,7 +51,7 @@ for row in range(rows):
         time_12_hour = datetime.now().strftime("%I:%M %p")
         
         #Parse lines
-        if row == 0: #Target headers
+        if row == 0 and file_empty: #Target headers
             values = decoded_bytes.split(",")
             values.insert(0, "Timestamp")
             values.insert(1, "Time")
