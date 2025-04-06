@@ -19,7 +19,7 @@ serialCom = serial.Serial('COM3', 9600)
 
 # Reset the arduino
 serialCom.setDTR(False)
-time.sleep(1)
+time.sleep(1) # 1 second per reading
 serialCom.flushInput() # Clear the serial com
 serialCom.setDTR(True)
 
