@@ -24,6 +24,7 @@ int humidity;
 int tempH = 2;
 int moistureBtn = 3;
 
+volatile bool home = true;
 //Button ISR booleans
 volatile bool tempHMenu = false;
 volatile bool moistureMenu = false;
@@ -61,8 +62,6 @@ void setup() {
 }
 
 void loop() {
-  menu();
-
   //Allow data to be fed in
   soilMoisture();
   tempHumidity();
@@ -77,7 +76,7 @@ void loop() {
   Serial.println();
 
   //Where the LCD code lives
-  buttonHandler();
+  stateHandler();
   delay(1000);
 }
 
@@ -94,6 +93,7 @@ void menu() {
 void soilMoisture() {
   moisture = analogRead(moisturePin);
   percentage = map(moisture, dryValue, wetValue, 0, 100);
+  percentage = constrain(percentage, 0, 100); //Constrain percentage within 0 to 100%
 }
 
 void tempHumidity() {
@@ -106,25 +106,32 @@ void printTH() {
   //LCD Code will go here
   lcd.clear();  // clear display
   lcd.setCursor(0, 0);
-  lcd.print("Temp(C): " + String(temperature));
+  lcd.print("Temp: " + String(temperature) + "C");
   lcd.setCursor(0, 1);
-  lcd.print("Humidity(%): " + String(humidity));
-  delay(2000);
+  lcd.print("Humidity: " + String(humidity) + "%");
+  delay(500);
 }
 
 void printMoisture() {
   //LCD Code will go here
   lcd.clear();  // clear display
   lcd.setCursor(0, 0);
-  lcd.print("Moisture(%): " + String(percentage));
-  delay(2000);
+  lcd.print("Moisture: " + String(percentage) + "%");
+  delay(500);
 }
 
-void buttonHandler() {
+void stateHandler() {
+  if (home){
+    menu();
+  }
   if (tempHMenu) {
+    home = false;
+    moistureMenu = false;
     Serial.println("Temperature and humidity button pressed");
     printTH();     // Show temperature and humidity
   } else if (moistureMenu) {
+    home = false;
+    tempHMenu = false;
     Serial.println("Soil moisture button pressed");
     printMoisture();  // Show soil moisture only
   }
