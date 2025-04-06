@@ -119,13 +119,13 @@ void printMoisture() {
   lcd.print("Moisture: " + String(percentage) + "%");
   if (percentage < 20){
     lcd.setCursor(0, 1);
-    lcd.print("Plant is sad");
+    lcd.print("Plant is sad :(");
   }else if (percentage > 20 && percentage < 60){
     lcd.setCursor(0, 1);
-    lcd.print("Plant is happy");
+    lcd.print("Plant is happy :)");
   }else if (percentage > 60){
     lcd.setCursor(0, 1);
-    lcd.print("Plant is wet");
+    lcd.print("Plant is wet :)");
   }
 
   delay(500);
