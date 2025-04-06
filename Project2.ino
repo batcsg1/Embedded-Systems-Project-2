@@ -1,7 +1,9 @@
 // Include the DHT11 library for interfacing with the temperature/humidity sensor.
 #include <DHT11.h>
-
 DHT11 dht11(12);  //temperature/humidity sensor
+
+#include <LiquidCrystal_I2C.h>       // Library for LCD
+LiquidCrystal_I2C lcd(0x27, 16, 2);  // I2C address 0x27, 16 column and 2 rows
 
 //Moisture sensor values
 #define moisturePin A0
@@ -53,25 +55,39 @@ void setup() {
   Serial.print("Humidity(%), ");
   Serial.print("Moisture(%)");
   Serial.println();
+
+  lcd.init();       //initialize the lcd
+  lcd.backlight();  //open the backlight
 }
 
 void loop() {
+  menu();
+
   //Allow data to be fed in
   soilMoisture();
   tempHumidity();
 
   //Serial readings of data from sensors
-  Serial.print(temperature); //Tempearture
+  Serial.print(temperature);  //Tempearture
   Serial.print(" ");
-  Serial.print(humidity); //Humidity
+  Serial.print(humidity);  //Humidity
   Serial.print(" ");
-  Serial.print(percentage); //Moisture
+  Serial.print(percentage);  //Moisture
   Serial.print(" ");
   Serial.println();
-  
+
   //Where the LCD code lives
   buttonHandler();
   delay(1000);
+}
+
+void menu() {    
+  lcd.clear();           // clear display
+  lcd.setCursor(0, 0);         // move cursor to   (0, 0)
+  lcd.print("The Batchelor");  // print message at (0, 0)
+  lcd.setCursor(0, 1);         // move cursor to   (2, 1)
+  lcd.print("Water Mate");     // print message at (2, 1)
+  delay(2000);
 }
 
 //Logic functions for Temprature, Humidity and Soil Moisture
@@ -88,18 +104,28 @@ void tempHumidity() {
 //Print functions for Temprature, Humidity and Soil Moisture
 void printTH() {
   //LCD Code will go here
+  lcd.clear();  // clear display
+  lcd.setCursor(0, 0);
+  lcd.print("Temp(C): " + String(temperature));
+  lcd.setCursor(0, 1);
+  lcd.print("Humidity(%): " + String(humidity));
+  delay(2000);
 }
 
 void printMoisture() {
   //LCD Code will go here
+  lcd.clear();  // clear display
+  lcd.setCursor(0, 0);
+  lcd.print("Moisture(%): " + String(percentage));
+  delay(2000);
 }
 
 void buttonHandler() {
   if (tempHMenu) {
     Serial.println("Temperature and humidity button pressed");
-    //printTH();     // Show temperature and humidity
+    printTH();     // Show temperature and humidity
   } else if (moistureMenu) {
     Serial.println("Soil moisture button pressed");
-    //printMoisture();  // Show soil moisture only
+    printMoisture();  // Show soil moisture only
   }
 }
