@@ -78,15 +78,15 @@ void loop() {
   Serial.println();
   //Where the LCD code lives
   stateHandler();
+  delay(1000);
 }
 
 void menu() {    
   lcd.clear();           // clear display
   lcd.setCursor(0, 0);         // move cursor to   (0, 0)
-  lcd.print("The Batchelor");  // print message at (0, 0)
+  lcd.print("PlantMate");  // print message at (0, 0)
   lcd.setCursor(0, 1);         // move cursor to   (2, 1)
-  lcd.print("Water Mate");     // print message at (2, 1)
-  delay(2000);
+  lcd.print("Smart Irrigation");     // print message at (2, 1)
 }
 
 //Logic functions for Temprature, Humidity and Soil Moisture
@@ -109,7 +109,6 @@ void printTH() {
   lcd.print("Temp: " + String(temperature) + "C");
   lcd.setCursor(0, 1);
   lcd.print("Humidity: " + String(humidity) + "%");
-  delay(1000);
 }
 
 void printMoisture() {
@@ -127,8 +126,6 @@ void printMoisture() {
     lcd.setCursor(0, 1);
     lcd.print("Plant is wet :)");
   }
-
-  delay(1000);
 }
 
 void stateHandler() {
