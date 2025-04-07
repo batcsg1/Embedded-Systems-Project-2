@@ -37,7 +37,7 @@ def isfloat(num):
     except ValueError:
         return False
 
-rows = 10 # Number of data rows to record
+rows = 3600 # Number of data rows to record
 
 for row in range(rows):
     try:
@@ -67,7 +67,7 @@ for row in range(rows):
             values.insert(0, timestamp)
             values.insert(1, time_12_hour)
 
-        print(values) #Print the data
+        print(f"Row: {row + 1} {values}") #Print the data
 
         #Write data to CSV
 
