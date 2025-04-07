@@ -7,8 +7,8 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);  // I2C address 0x27, 16 column and 2 rows
 
 //Moisture sensor values
 #define moisturePin A0
-int dryValue = 177;
-int wetValue = 520;
+int dryValue = 330;
+int wetValue = 650;
 int percentage;
 
 int moisture;
@@ -73,11 +73,11 @@ void loop() {
   Serial.print(" ");
   Serial.print(percentage);  //Moisture
   Serial.print(" ");
+  // Serial.print(moisture);  //Moisture
+  // Serial.print(" ");
   Serial.println();
-
   //Where the LCD code lives
   stateHandler();
-  delay(1000);
 }
 
 void menu() {    
@@ -109,7 +109,7 @@ void printTH() {
   lcd.print("Temp: " + String(temperature) + "C");
   lcd.setCursor(0, 1);
   lcd.print("Humidity: " + String(humidity) + "%");
-  delay(500);
+  delay(1000);
 }
 
 void printMoisture() {
@@ -128,7 +128,7 @@ void printMoisture() {
     lcd.print("Plant is wet :)");
   }
 
-  delay(500);
+  delay(1000);
 }
 
 void stateHandler() {
