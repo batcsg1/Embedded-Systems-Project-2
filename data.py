@@ -8,17 +8,18 @@ from datetime import datetime
 
 import os
 
+file = "dry.csv"
 # ChatGPT code for checking if:
 # the file exists and is empty
-file_exists = os.path.exists("data.csv")
-file_empty = os.path.getsize("data.csv") == 0 if file_exists else True
+file_exists = os.path.exists(file)
+file_empty = os.path.getsize(file) == 0 if file_exists else True
 
 # Loop through existing COM ports and print them to terminal
 ports = list_ports.comports()
 for port in ports: print(port)
 
 # Create data file
-f = open("data.csv", "a",newline='')
+f = open(file, "a",newline='')
 
 
 # Target Arduino serial port
@@ -37,7 +38,7 @@ def isfloat(num):
     except ValueError:
         return False
 
-rows = 4000 # Number of data rows to record
+rows = 10 # Number of data rows to record
 
 for row in range(rows):
     try:
