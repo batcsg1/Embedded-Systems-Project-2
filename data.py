@@ -37,7 +37,7 @@ def isfloat(num):
     except ValueError:
         return False
 
-rows = 3600 # Number of data rows to record
+rows = 4000 # Number of data rows to record
 
 for row in range(rows):
     try:
