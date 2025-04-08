@@ -1,3 +1,4 @@
+#src: https://www.youtube.com/watch?v=fIlklRIuXoY&t=238s
 #Run pip install pyserial 
 
 from serial.tools import list_ports
